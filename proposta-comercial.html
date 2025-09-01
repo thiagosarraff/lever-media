@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Técnica - Automação de Postagens | Barone Media</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #ffffff;
+        }
+        
+        .header {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1em;
+            font-weight: 300;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.5em;
+            font-weight: 400;
+            margin-bottom: 25px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .projeto-card {
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .projeto-card h3 {
+            color: #2c3e50;
+            font-size: 1.3em;
+            font-weight: 500;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #bdc3c7;
+        }
+        
+        .objetivo {
+            background: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #e8e8e8;
+        }
+        
+        .objetivo-label {
+            font-weight: 600;
+            color: #27ae60;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .objetivo-text {
+            color: #34495e;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+        
+        .requisitos {
+            margin-top: 20px;
+        }
+        
+        .requisitos h4 {
+            color: #7f8c8d;
+            font-size: 1em;
+            font-weight: 500;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .requisitos ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .requisitos li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #2c3e50;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .requisitos li:before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .requisitos li:last-child {
+            border-bottom: none;
+        }
+        
+        .situacao-atual {
+            background: #fff5f5;
+            border-left: 5px solid #e74c3c;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        
+        .economia-destaque {
+            background: #f0f8ff;
+            border-left: 5px solid #3498db;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        
+        .economia-destaque h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .economia-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .economia-item:last-child {
+            border-bottom: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #27ae60;
+        }
+        
+        .cronograma-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .cronograma-table th,
+        .cronograma-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .cronograma-table th {
+            background: #3498db;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .cronograma-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .marco {
+            background: #fff3cd;
+            color: #856404;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        .investimento {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border: 2px solid #3498db;
+        }
+        
+        .investimento h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+        
+        .valor-linha {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        
+        .valor-linha:last-child {
+            border-bottom: 2px solid #3498db;
+            font-weight: 600;
+            font-size: 1.2em;
+            color: #2c3e50;
+            padding-top: 20px;
+        }
+        
+        .garantias {
+            background: #f0f8f5;
+            border-left: 5px solid #27ae60;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        
+        .garantias ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .garantias li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #2c3e50;
+        }
+        
+        .garantias li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .proximos-passos {
+            background: #fff8e1;
+            border-left: 5px solid #f39c12;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        
+        .proximos-passos ol {
+            padding-left: 20px;
+        }
+        
+        .proximos-passos li {
+            padding: 8px 0;
+            color: #2c3e50;
+        }
+        
+        .footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 2px solid #ecf0f1;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .pre-requisitos {
+            background: #fff5f5;
+            border-left: 5px solid #e67e22;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .limitacao-note {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        .validacao-mvp {
+            background: #e8f5e8;
+            border-left: 5px solid #27ae60;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .roi-destaque {
+            background: #f0f8ff;
+            border: 2px solid #3498db;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .roi-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #27ae60;
+            margin: 10px 0;
+        }
+
+        .parceria-note {
+            background: #fff8e1;
+            border-left: 5px solid #f39c12;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div>
+                <h1>Proposta Técnica</h1>
+                <div class="subtitle">Automação de Postagens em Redes Sociais | Barone Media</div>
+            </div>
+            <div style="text-align: right; color: #7f8c8d; font-size: 0.9em;">
+                <strong style="color: #2c3e50; font-size: 1.1em;">Beta2B Soluções Inteligentes Ltda</strong><br>
+                CNPJ: 60.277.784/0001-21<br>
+                Data: 01/09/2025
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>MVP Validado</h2>
+        <div class="validacao-mvp">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">✅ Resultados do MVP já Testado</h3>
+            <p style="color: #34495e; margin-bottom: 15px;">
+                <strong>O fluxo construído como MVP comprovou:</strong>
+            </p>
+            <ul style="color: #34495e; padding-left: 25px; margin-bottom: 20px;">
+                <li style="margin-bottom: 8px;">✓ Redução significativa no tempo manual de distribuição</li>
+                <li style="margin-bottom: 8px;">✓ Funcionamento estável das integrações com redes sociais</li>
+                <li style="margin-bottom: 8px;">✓ Automação confiável sem perda de qualidade</li>
+                <li style="margin-bottom: 8px;">✓ Interface intuitiva para a equipe da Lever Media</li>
+                <li style="margin-bottom: 8px;">✓ ROI positivo desde a implementação inicial</li>
+            </ul>
+            <p style="color: #27ae60; font-weight: 600; font-size: 1.1em;">
+                A partir da validação, esta proposta expande para o sistema completo com todas as 10 contas e funcionalidades avançadas.
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Situação Atual</h2>
+        <div class="situacao-atual">
+            <p><strong>Processo Manual Identificado (baseado no mapeamento com Social Media):</strong></p>
+            <ul style="margin: 15px 0; padding-left: 25px;">
+                <li>4 canais YouTube + 2 TikTok + 2 Facebook + 2 Instagram = <strong>10 contas</strong></li>
+                <li>Tempo médio por vídeo: <strong>35 minutos</strong> (processo completo)</li>
+                <li>Volume: <strong>Mínimo 2 vídeos por dia</strong> = 60 vídeos/mês</li>
+                <li>Equipe envolvida: <strong>Social Media + equipe de apoio</strong></li>
+            </ul>
+            
+            <div class="economia-destaque">
+                <h3>Impacto no Tempo da Equipe</h3>
+                <div class="economia-item">
+                    <span>Tempo por vídeo (todas as redes):</span>
+                    <span><strong>35 minutos</strong></span>
+                </div>
+                <div class="economia-item">
+                    <span>Tempo diário para vídeos (2 vídeos):</span>
+                    <span><strong>1h 10min</strong></span>
+                </div>
+                <div class="economia-item">
+                    <span>Tempo mensal apenas para vídeos:</span>
+                    <span><strong>aproximadamente 45 horas</strong></span>
+                </div>
+            </div>
+            
+            <div style="margin-top: 25px; padding: 20px; background: #fff8e1; border-radius: 8px; border-left: 4px solid #f39c12;">
+                <h4 style="color: #2c3e50; margin-bottom: 15px;">Stories Promocionais - Processo Manual Adicional</h4>
+                <p style="color: #34495e; margin-bottom: 10px;">
+                    Sistema atual de stories promocionais requer processo manual intensivo:
+                </p>
+                <ul style="color: #34495e; padding-left: 20px; margin-bottom: 15px;">
+                    <li>Leitura e seleção manual da planilha de promoções</li>
+                    <li>Geração manual de links de afiliado personalizados</li>
+                    <li>Captura manual de imagens dos produtos</li>
+                    <li>Edição manual para criação de templates visuais</li>
+                    <li>Publicação manual individual de cada story</li>
+                </ul>
+                <p style="color: #34495e; font-weight: 500;">
+                    <strong>Meta atual:</strong> 5-10 stories/dia = <strong>aproximadamente 45 horas mensais adicionais</strong> que podem ser completamente automatizadas.
+                </p>
+            </div>
+            
+            <div class="economia-destaque" style="background: #e8f5e8;">
+                <h3>Total de Tempo Manual Atual</h3>
+                <div class="economia-item">
+                    <span>Distribuição de vídeos mensais:</span>
+                    <span><strong>45 horas</strong></span>
+                </div>
+                <div class="economia-item">
+                    <span>Stories promocionais mensais:</span>
+                    <span><strong>45 horas</strong></span>
+                </div>
+                <div class="economia-item">
+                    <span><strong>Total mensal atual:</strong></span>
+                    <span><strong class="highlight">aproximadamente 90 horas de trabalho manual</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Solução Proposta</h2>
+        
+        <div class="projeto-card">
+            <h3>Projeto 1: Distribuição Automática de Vídeos</h3>
+            
+            <div class="objetivo">
+                <span class="objetivo-label">Objetivo Principal</span>
+                <div class="objetivo-text">
+                    Automatizar completamente a distribuição de vídeos nas 10 contas das redes sociais, 
+                    eliminando o processo manual e permitindo que a equipe foque na criação de conteúdo.
+                </div>
+            </div>
+            
+            <div class="requisitos">
+                <h4>Funcionalidades</h4>
+                <ul>
+                    <li>Integração ClickUp → Sistema de automação → Redes Sociais</li>
+                    <li>Distribuição automática em YouTube (4 contas), Facebook (2), Instagram (2), TikTok (2)</li>
+                    <li>Controle de flags para vídeos sensíveis (exclusão TikTok quando necessário)</li>
+                    <li>Atualização automática de status no ClickUp após publicações</li>
+                    <li>Sistema de notificação em caso de falhas</li>
+                    <li>Logs para acompanhamento e resolução de problemas</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="projeto-card">
+            <h3>Projeto 2: Stories Promocionais Automatizados</h3>
+            
+            <div class="objetivo">
+                <span class="objetivo-label">Objetivo Principal</span>
+                <div class="objetivo-text">
+                    Criar sistema automatizado para processar planilha de promoções e gerar/publicar stories 
+                    promocionais, maximizando oportunidades de receita com afiliação.
+                </div>
+            </div>
+            
+            <div class="requisitos">
+                <h4>Funcionalidades</h4>
+                <ul>
+                    <li>Leitura automática da planilha de promoções diárias</li>
+                    <li>Automação para geração de links de afiliado (via conta Mercado Livre)</li>
+                    <li>Captura automática de imagens dos produtos selecionados</li>
+                    <li>Geração automática de templates visuais personalizados</li>
+                    <li>Publicação automática no Facebook Stories</li>
+                    <li>Meta: 5-10 promoções diárias completamente automatizadas</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>ROI e Benefícios Financeiros Comprovados</h2>
+        <div class="roi-destaque">
+            <h3 style="color: #2c3e50; margin-bottom: 10px;">Retorno sobre Investimento</h3>
+            <div class="roi-number">até 268%</div>
+            <p style="color: #34495e; font-size: 1.1em; margin-bottom: 20px;">
+                <strong>no primeiro ano de operação</strong>
+            </p>
+            <div style="display: flex; justify-content: space-around; margin-top: 25px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 1.8em; font-weight: bold; color: #3498db;">3-7</div>
+                    <div style="color: #7f8c8d;">meses de payback</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 1.8em; font-weight: bold; color: #27ae60;">R$ 4.500</div>
+                    <div style="color: #7f8c8d;">economia mensal média</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="economia-destaque">
+            <h3>Economia de Tempo Comprovada</h3>
+            <div class="economia-item">
+                <span>Situação atual (mensal):</span>
+                <span>aproximadamente 90 horas de trabalho manual</span>
+            </div>
+            <div class="economia-item">
+                <span>Após automação:</span>
+                <span>3-5 horas de supervisão</span>
+            </div>
+            <div class="economia-item">
+                <span><strong>Tempo liberado mensalmente:</strong></span>
+                <span><strong class="highlight">aproximadamente 85 horas</strong></span>
+            </div>
+            <div class="economia-item">
+                <span><strong>Valor monetário da economia:</strong></span>
+                <span><strong style="color: #27ae60;">R$ 2.800 - R$ 6.100/mês</strong></span>
+            </div>
+        </div>
+        
+        <p style="margin-top: 20px; color: #34495e;">
+            <strong>Resultado:</strong> Equipe poderá focar 100% na criação de conteúdo estratégico, 
+            desenvolvimento de campanhas e crescimento dos canais, eliminando completamente as tarefas operacionais repetitivas.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Pré-requisitos do Cliente</h2>
+        <div class="pre-requisitos">
+            <h4 style="color: #2c3e50; margin-bottom: 15px;">Para Garantir o Sucesso da Implementação</h4>
+            <ul style="color: #34495e; padding-left: 20px;">
+                <li><strong>Acessos completos:</strong> Todas as contas das redes sociais com permissões de administrador</li>
+                <li><strong>ClickUp organizado:</strong> Processo atual mantido 100% conforme padrão mapeado</li>
+                <li><strong>Cookies Mercado Livre:</strong> Sessão válida da conta de afiliado</li>
+                <li><strong>Planilha de Stories:</strong> Formato estabelecido mantido consistentemente</li>
+                <li><strong>Disponibilidade da equipe:</strong> Thiago Felix disponível para alinhamentos durante desenvolvimento</li>
+            </ul>
+            <p style="color: #7f8c8d; font-size: 0.9em; margin-top: 15px;">
+                <em>Importante: Cookies do Mercado Livre precisam ser atualizados periodicamente (idealmente 1x por semana) para manter o funcionamento do sistema de afiliação.</em>
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Cronograma de Entrega</h2>
+        <table class="cronograma-table">
+            <thead>
+                <tr>
+                    <th>Período</th>
+                    <th>Entrega</th>
+                    <th>Marco</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Semana 1</strong></td>
+                    <td>Reunião de alinhamento + Setup base do sistema</td>
+                    <td><span class="marco">Kickoff</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Semanas 2-3</strong></td>
+                    <td>YouTube (4 contas) + Facebook (2 contas)</td>
+                    <td><span class="marco">Projeto 1 - Fase 1</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Semanas 4-5</strong></td>
+                    <td>Instagram (2 contas) + TikTok (2 contas) + Sistema de flags</td>
+                    <td><span class="marco">Projeto 1 Completo</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Semanas 6-7</strong></td>
+                    <td>Stories promocionais automatizados + Testes integrados</td>
+                    <td><span class="marco">Projeto 2 Completo</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Semana 8</strong></td>
+                    <td>Documentação + Treinamento + Ajustes finais</td>
+                    <td><span class="marco">Entrega Final</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="margin-top: 15px; color: #7f8c8d;"><em>Prazo total: 8 semanas</em></p>
+    </div>
+
+    <div class="section">
+        <h2>Investimento - Preço de Parceria</h2>
+        
+        <div class="parceria-note">
+            <p style="color: #856404; font-weight: 500;">
+                <strong>Preço Especial de Parceria:</strong> Considerando a aprovação do MVP e nosso objetivo de construir uma parceria de longo prazo, oferecemos valores diferenciados em relação ao mercado padrão (R$ 35.000-45.000).
+            </p>
+        </div>
+
+        <div class="investimento">
+            <h3>Estrutura de Pagamento</h3>
+            <div class="valor-linha">
+                <span>Desenvolvimento completo dos 2 sistemas:</span>
+                <span><strong>R$ 25.000</strong></span>
+            </div>
+            <div class="valor-linha">
+                <span>Suporte mensal + infraestrutura:</span>
+                <span><strong>R$ 1.200/mês</strong></span>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">Parcelamento Sugerido</h3>
+            <div class="valor-linha" style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                <span>40% na assinatura do contrato:</span>
+                <span><strong>R$ 10.000</strong></span>
+            </div>
+            <div class="valor-linha" style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                <span>60% na entrega completa:</span>
+                <span><strong>R$ 15.000</strong></span>
+            </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <h3 style="color: #2c3e50; margin-bottom: 15px;">Operação Mensal</h3>
+            <div class="valor-linha" style="background: #f0f8ff; padding: 15px; border-radius: 8px;">
+                <span>Infraestrutura + Monitoramento + Suporte:</span>
+                <span><strong>R$ 1.200/mês</strong></span>
+            </div>
+            <p style="margin-top: 10px; color: #7f8c8d; font-size: 0.9em;">
+                <em>Inclui: 6h de suporte técnico mensal para ajustes de integrações, monitoramento contínuo, backups e atualizações de API</em>
+            </p>
+        </div>
+
+        <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin-top: 25px;">
+            <h4 style="color: #27ae60; margin-bottom: 15px;">💰 Justificativa do Investimento</h4>
+            <ul style="color: #2c3e50; padding-left: 20px;">
+                <li><strong>Economia mensal:</strong> R$ 4.500 em média (90h × R$ 50/hora)</li>
+                <li><strong>Payback:</strong> 5,5 meses (R$ 25.000 ÷ R$ 4.500)</li>
+                <li><strong>ROI ano 1:</strong> 216% considerando apenas economia de tempo</li>
+                <li><strong>Valor de mercado similar:</strong> R$ 35.000 - R$ 45.000</li>
+                <li><strong>Diferencial único:</strong> Integração com Mercado Livre (indisponível em SaaS) e automação personalizada de processo "As Is"</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Garantias</h2>
+        <div class="garantias">
+            <ul>
+                <li><strong>30 dias de ajustes inclusos</strong> após entrega final</li>
+                <li><strong>Documentação técnica completa</strong> de todos os processos</li>
+                <li><strong>Treinamento para equipe interna</strong> (2 sessões de 2h)</li>
+                <li><strong>Código-fonte de propriedade do cliente</strong></li>
+                <li><strong>Suporte para adaptações</strong> durante período de contrato</li>
+                <li><strong>Rollback garantido</strong> em caso de problemas críticos</li>
+                <li><strong>SLA de resposta:</strong> 24h úteis para suporte mensal</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Considerações Técnicas</h2>
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+            <h4 style="color: #2c3e50; margin-bottom: 15px;">Arquitetura Proposta</h4>
+            <ul style="color: #34495e; padding-left: 20px;">
+                <li><strong>Sistema de automação N8N</strong> como orquestrador principal dos workflows</li>
+                <li><strong>Integrações oficiais</strong> das plataformas para máxima confiabilidade</li>
+                <li><strong>Automações específicas</strong> para processamento de dados complexos</li>
+                <li><strong>Sistema de monitoramento</strong> para detecção proativa de problemas</li>
+            </ul>
+        </div>
+        
+        <div class="limitacao-note" style="border-left: 4px solid #f39c12;">
+            <h4 style="color: #2c3e50; margin-bottom: 15px;">Limitações das APIs Oficiais</h4>
+            <p style="color: #34495e; margin-bottom: 10px;">
+                Algumas funcionalidades específicas possuem limitações técnicas nas integrações oficiais:
+            </p>
+            <ul style="color: #34495e; padding-left: 20px; margin-bottom: 15px;">
+                <li><strong>YouTube Shorts - Thumbnail personalizada:</strong> Não disponível via integração oficial</li>
+                <li><strong>YouTube - Vídeo de redirecionamento:</strong> Não disponível via integração oficial</li>
+            </ul>
+            <p style="color: #34495e; margin-bottom: 10px;">
+                <strong>Soluções alternativas disponíveis mediante orçamento adicional:</strong>
+            </p>
+            <ul style="color: #34495e; padding-left: 20px;">
+                <li>Implementação via automação avançada com investimento adicional</li>
+                <li>Funcionalidades podem ser desenvolvidas em fase posterior</li>
+            </ul>
+            <p style="color: #7f8c8d; font-size: 0.9em; margin-top: 10px;">
+                <em>Nota: O escopo base focará nas funcionalidades mais estáveis e importantes para o dia a dia.</em>
+            </p>
+        </div>
+        
+        <div class="limitacao-note" style="border-left: 4px solid #95a5a6;">
+            <h4 style="color: #2c3e50; margin-bottom: 15px;">Kwai - Plataforma Adicional</h4>
+            <p style="color: #34495e; margin-bottom: 10px;">
+                O Kwai não está incluído no escopo principal devido a limitações técnicas específicas:
+            </p>
+            <ul style="color: #34495e; padding-left: 20px; margin-bottom: 15px;">
+                <li>Ausência de integração oficial disponível</li>
+                <li>Necessidade de abordagem alternativa com maior complexidade</li>
+                <li>Baseado no mapeamento atual, identificada como baixa prioridade operacional</li>
+            </ul>
+            <p style="color: #34495e; font-weight: 500;">
+                <strong>Opção futura:</strong> Kwai pode ser adicionado posteriormente como projeto específico, mediante análise e orçamento dedicado.
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Próximos Passos</h2>
+        <div class="proximos-passos">
+            <ol>
+                <li><strong>Aprovação da proposta</strong> e definição de detalhes finais</li>
+                <li><strong>Assinatura de contrato</strong> de prestação de serviços</li>
+                <li><strong>Primeiro pagamento</strong> para início do desenvolvimento</li>
+                <li><strong>Reunião de alinhamento</strong> com toda equipe técnica (Kickoff)</li>
+                <li><strong>Reuniões semanais</strong> de acompanhamento durante desenvolvimento</li>
+            </ol>
+        </div>
+
+        <div style="background: #f0f8ff; padding: 20px; border-radius: 8px; margin-top: 25px;">
+            <h4 style="color: #2c3e50; margin-bottom: 15px;">🚀 Visão de Longo Prazo</h4>
+            <p style="color: #34495e; margin-bottom: 10px;">
+                Esta automação é o primeiro passo de uma parceria estratégica.
+            </p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Proposta técnica elaborada por Beta2B Soluções Inteligentes Ltda especificamente para Lever Media</p>
+        <p style="margin-top: 5px;">Para dúvidas ou esclarecimentos: thiagosarraff@gmail.com | (48) 99161-1666</p>
+    </div>
+</body>
+</html>
