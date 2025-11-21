@@ -184,6 +184,7 @@
             border: 1px solid #e5e7eb;
         }
 
+        /* Callouts */
         .callout {
             padding: 1rem 1.5rem;
             border-radius: 8px;
@@ -201,7 +202,7 @@
         .callout.danger { background-color: #fef2f2; border-color: #ef4444; }
         .callout.danger strong { color: #991b1b; }
 
-        /* --- Mermaid Wrapper & Zoom --- */
+        /* Mermaid Wrapper & Zoom */
         .mermaid-wrapper {
             position: relative;
             margin-bottom: 2rem;
@@ -240,7 +241,7 @@
             pointer-events: none;
         }
 
-        /* --- Modal / Lightbox --- */
+        /* Modal / Lightbox */
         .modal {
             display: none;
             position: fixed;
@@ -268,7 +269,6 @@
             overflow: auto;
         }
 
-        /* Força o SVG dentro do modal a ocupar o espaço disponível */
         .modal-content svg {
             max-width: 100% !important;
             height: auto !important;
@@ -297,10 +297,7 @@
 
         .modal-close:hover { background: #e5e7eb; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* Mobile Button */
         .menu-toggle {
@@ -387,18 +384,23 @@
 
             <section id="requisitos">
                 <h2>Pré-requisitos e Arquivos</h2>
-                <p>Para garantir o funcionamento, os arquivos devem estar organizados nas <strong>subpastas</strong> corretas dentro do Google Drive.</p>
+                <p>Para garantir o funcionamento, é fundamental que os arquivos e o ClickUp estejam preenchidos corretamente.</p>
 
-                <div class="callout danger">
-                    <strong>ATENÇÃO:</strong> O sistema NÃO lê arquivos na raiz da pasta. Eles precisam estar dentro de <code>/export</code> e <code>/thumb</code>.
+                <div class="callout info">
+                    <strong>⚠️ Regra de Ouro (Arquivo Único):</strong><br>
+                    Para evitar que a automação selecione o vídeo errado, certifique-se de ter <strong>apenas 1 arquivo de vídeo</strong> na pasta <code>export</code> e <strong>1 arquivo de imagem</strong> na pasta <code>thumb</code>.<br><br>
+                    <em>Caso haja mais de um, o sistema tentará escolher o maior arquivo ou o que contiver "PT/BR" no nome, mas a precisão não é garantida.</em>
                 </div>
+
+                <h3>Estrutura de Pastas (Google Drive)</h3>
+                <p>O sistema <strong>não lê</strong> arquivos na raiz da pasta linkada. Eles devem estar organizados assim:</p>
 
                 <table>
                     <thead>
                         <tr>
                             <th style="width: 20%">Tipo</th>
-                            <th style="width: 40%">Diretório Obrigatório</th>
-                            <th style="width: 40%">Requisitos</th>
+                            <th style="width: 35%">Diretório Obrigatório</th>
+                            <th style="width: 45%">Requisitos</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -422,10 +424,12 @@
                     </tbody>
                 </table>
 
-                <h3>No ClickUp</h3>
+                <h3>Preenchimento no ClickUp</h3>
                 <ul>
-                    <li><strong>Link:</strong> Deve ser o link da pasta principal que contém as subpastas acima.</li>
-                    <li><strong>Campos:</strong> Data de Postagem, Título e Legenda devem estar preenchidos.</li>
+                    <li><strong>Link:</strong> Deve ser o link da pasta principal do Drive (que contém as subpastas <code>export</code> e <code>thumb</code>).</li>
+                    <li><strong>Data de Postagem:</strong> Campo de data/hora deve estar preenchido.</li>
+                    <li><strong>Título:</strong> Definido no campo personalizado.</li>
+                    <li><strong>Legenda (IMPORTANTE):</strong> Todos os <strong>links de produtos e sorteios</strong> devem ser inseridos aqui. A automação lê este campo para identificar o que colocar no comentário fixado ou avisar sobre "Link na Bio".</li>
                 </ul>
             </section>
 
@@ -468,8 +472,12 @@
                     <li><strong>Facebook:</strong> <em>SoyElBarone</em>.</li>
                 </ul>
 
-                <h3>3. Descrições</h3>
-                <p>O sistema converte automaticamente links da legenda para "Link na Bio" no Instagram e TikTok para evitar links não clicáveis.</p>
+                <h3>3. Links e Legendas</h3>
+                <p>O sistema converte links automaticamente:</p>
+                <ul>
+                    <li><strong>Instagram/TikTok:</strong> Remove links do texto e substitui por chamadas "Link na Bio".</li>
+                    <li><strong>Facebook/YouTube:</strong> Mantém os links clicáveis e insere links de produtos nos comentários quando detectado na legenda.</li>
+                </ul>
             </section>
 
             <section id="login">
@@ -544,32 +552,28 @@
 
         // Funções do Modal de Zoom
         function openModal() {
-            // Clona o SVG atual do diagrama
             const originalSvg = document.querySelector('.mermaid svg');
             if (originalSvg) {
                 const clonedSvg = originalSvg.cloneNode(true);
-                // Remove altura/largura fixa para permitir que o CSS do modal controle o tamanho
                 clonedSvg.removeAttribute('height');
                 clonedSvg.style.maxWidth = '100%';
                 
                 const modalContent = document.getElementById('modalContent');
-                modalContent.innerHTML = ''; // Limpa conteúdo anterior
+                modalContent.innerHTML = ''; 
                 modalContent.appendChild(clonedSvg);
                 
                 document.getElementById('diagramModal').classList.add('active');
-                document.body.style.overflow = 'hidden'; // Impede rolagem da página de fundo
+                document.body.style.overflow = 'hidden'; 
             }
         }
 
         function closeModal(event) {
-            // Fecha se clicar no botão X ou no fundo escuro (mas não no conteúdo)
             if (event.target.id === 'diagramModal' || event.target.classList.contains('modal-close')) {
                 document.getElementById('diagramModal').classList.remove('active');
                 document.body.style.overflow = 'auto';
             }
         }
 
-        // Fechar com tecla ESC
         document.addEventListener('keydown', function(event) {
             if (event.key === "Escape") {
                 document.getElementById('diagramModal').classList.remove('active');
