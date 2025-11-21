@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docs | Automação Lever Media</title>
+    
+    <!-- Fontes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Mermaid JS -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+
+    <style>
+        :root {
+            /* Cores Lever Media (Adaptadas para Light Mode) */
+            --primary-color: #00aabf; /* Ciano um pouco mais escuro para leitura no branco */
+            --primary-bg: #e6fcfd; /* Fundo ciano bem claro */
+            
+            --bg-body: #f3f4f6; /* Cinza claro fundo */
+            --bg-paper: #ffffff; /* Branco papel */
+            --bg-sidebar: #ffffff;
+            
+            --text-main: #1f2937; /* Cinza quase preto */
+            --text-muted: #6b7280; /* Cinza médio */
+            
+            --border-color: #e5e7eb;
+            --code-bg: #1e293b; /* Code block escuro para contraste */
+            --code-text: #e2e8f0;
+
+            --sidebar-width: 260px;
+            --content-width: 900px; /* Largura limitada para leitura */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* --- Sidebar --- */
+        aside {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background-color: #fafafa;
+        }
+
+        .brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #111;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .brand span { color: #00C8E6; /* Ciano original da marca */ }
+
+        .nav-content {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        aside nav ul { list-style: none; }
+        .nav-group { margin-bottom: 2rem; }
+
+        .nav-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        aside nav a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 0.25rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        aside nav a:hover {
+            background-color: var(--bg-body);
+            color: var(--primary-color);
+            border-left-color: var(--primary-color);
+        }
+
+        /* --- Main Content --- */
+        main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 3rem 2rem;
+            display: flex;
+            justify-content: center; /* Centraliza o container */
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--content-width);
+            background-color: var(--bg-paper);
+            padding: 4rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Tipografia */
+        h1 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1.5rem; color: #111; letter-spacing: -1px; }
+        h2 { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            margin: 3rem 0 1rem; 
+            color: #1f2937; 
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            scroll-margin-top: 2rem;
+        }
+        h3 { font-size: 1.15rem; font-weight: 600; margin: 2rem 0 0.75rem; color: #374151; }
+        
+        p, li { font-size: 1rem; color: #4b5563; margin-bottom: 1rem; }
+        ul, ol { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+
+        /* Elementos Visuais */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #f9fafb; font-weight: 600; color: #374151; font-size: 0.9rem; }
+        td { font-size: 0.9rem; }
+        tr:last-child td { border-bottom: none; }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        p > code, li > code {
+            background-color: var(--bg-body);
+            color: #d946ef; /* Roxo para destaque inline */
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        /* Callouts */
+        .callout {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid;
+            background-color: #fff;
+        }
+
+        .callout.info { background-color: #eff6ff; border-color: #3b82f6; }
+        .callout.info strong { color: #1e40af; }
+        
+        .callout.warning { background-color: #fffbeb; border-color: #f59e0b; }
+        .callout.warning strong { color: #92400e; }
+        
+        .callout.danger { background-color: #fef2f2; border-color: #ef4444; }
+        .callout.danger strong { color: #991b1b; }
+
+        /* Mermaid */
+        .mermaid {
+            background-color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Mobile Button */
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 200;
+            background: white;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            aside { transform: translateX(-100%); }
+            aside.open { transform: translateX(0); box-shadow: 5px 0 15px rgba(0,0,0,0.1); }
+            main { margin-left: 0; padding: 1.5rem; }
+            .container { padding: 2rem 1.5rem; }
+            .menu-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="menu-toggle" onclick="document.querySelector('aside').classList.toggle('open')">☰</button>
+
+    <aside>
+        <div class="sidebar-header">
+            <div class="brand">LEVER<span>MEDIA</span></div>
+        </div>
+        
+        <div class="nav-content">
+            <nav>
+                <div class="nav-group">
+                    <div class="nav-header">Introdução</div>
+                    <a href="#visao-geral">Visão Geral</a>
+                    <a href="#requisitos">Pré-requisitos</a>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-header">Operação</div>
+                    <a href="#telegram">Comandos Telegram</a>
+                    <a href="#regras-midia">Regras de Mídia</a>
+                    <a href="#login">Manutenção & Login</a>
+                </div>
+
+                <div class="nav-group">
+                    <div class="nav-header">Suporte</div>
+                    <a href="#erros">Erros Comuns</a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <main>
+        <div class="container">
+            <section id="visao-geral">
+                <h1>Manual de Automação</h1>
+                <p>Bem-vindo à documentação oficial do fluxo de mídia do Barone. Este sistema conecta o <strong>ClickUp</strong> ao <strong>Google Drive</strong> para distribuir conteúdo automaticamente no YouTube, Facebook, Instagram e TikTok.</p>
+                
+                <div class="mermaid">
+                    %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e6fcfd', 'edgeLabelBackground':'#fff', 'tertiaryColor': '#fff'}}}%%
+                    graph LR
+        A[Telegram: /agendar_card] --> B(ClickUp: Leitura);
+        B --> C{Arquivos no Drive?};
+        C -->|Sim| D[Processamento];
+        C -->|Não| X[Erro: Arquivos não encontrados];
+        D --> E[Telegram: Aprovar?];
+        E -->|Sim| F{Distribuição};
+        F --> G[YouTube];
+        F --> H[Meta FB/IG];
+        F --> I[TikTok];
+        G & H & I --> J[Logs & ClickUp];
+                </div>
+            </section>
+
+            <section id="requisitos">
+                <h2>Pré-requisitos e Arquivos</h2>
+                <p>Para garantir o funcionamento, os arquivos devem estar organizados nas <strong>subpastas</strong> corretas dentro do Google Drive.</p>
+
+                <div class="callout danger">
+                    <strong>ATENÇÃO:</strong> O sistema NÃO lê arquivos na raiz da pasta. Eles precisam estar dentro de <code>/export</code> e <code>/thumb</code>.
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">Tipo</th>
+                            <th style="width: 40%">Diretório Obrigatório</th>
+                            <th style="width: 40%">Requisitos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Vídeo</strong></td>
+                            <td><code>/export</code></td>
+                            <td>
+                                • Formato: <code>.mp4</code><br>
+                                • Tamanho Máx: <strong>1GB</strong>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Thumbnail</strong></td>
+                            <td><code>/thumb</code></td>
+                            <td>
+                                • Formato: <code>.jpg</code> ou <code>.png</code><br>
+                                • Tamanho Ideal: <strong>&lt; 2MB</strong><br>
+                                <small style="color:#666">(O sistema tenta comprimir até 7MB, mas evite arquivos maiores)</small>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>No ClickUp</h3>
+                <ul>
+                    <li><strong>Link:</strong> Deve ser o link da pasta principal que contém as subpastas acima.</li>
+                    <li><strong>Campos:</strong> Data de Postagem, Título e Legenda devem estar preenchidos.</li>
+                </ul>
+            </section>
+
+            <section id="telegram">
+                <h2>Comandos do Telegram</h2>
+                <p>A interface de controle é feita pelo chat do Telegram.</p>
+
+                <div class="callout info">
+                    <strong>Nota:</strong> O comando de agendamento em lote (<code>/agendar</code>) foi desabilitado. Use o comando por Card ID.
+                </div>
+
+                <h3>Iniciar Automação</h3>
+                <p>Para processar um vídeo específico:</p>
+                <pre><code>/agendar_card [ID_DO_CARD]</code></pre>
+                <p>Exemplo: <code>/agendar_card 86acxhybw</code></p>
+
+                <h3>Recuperar Falhas (Retry)</h3>
+                <p>Caso ocorra um erro de API, o sistema enviará um ID de execução. Use-o para reiniciar do ponto de falha:</p>
+                <pre><code>/retry [ID_DA_EXECUCAO]</code></pre>
+            </section>
+
+            <section id="regras-midia">
+                <h2>Regras de Mídia</h2>
+                
+                <h3>1. Sorteios (Tags)</h3>
+                <p>O comportamento padrão envia para os canais principais. Para enviar para os canais de <strong>Prêmios</strong>, inclua a flag:</p>
+                <ul>
+                    <li><strong>Tag <code>sorteio</code>:</strong> 
+                        <ul>
+                            <li>YouTube → Canal <em>Barone Prêmios</em>.</li>
+                            <li>Instagram → Conta <em>@eusoubarone2</em>.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>2. Internacional</h3>
+                <p>Identificado automaticamente se houver preenchimento no campo "Página INT".</p>
+                <ul>
+                    <li><strong>YouTube:</strong> <em>SoyElBarone Shorts</em> e <em>SoyElBarone Vertical</em>.</li>
+                    <li><strong>Facebook:</strong> <em>SoyElBarone</em>.</li>
+                </ul>
+
+                <h3>3. Descrições</h3>
+                <p>O sistema converte automaticamente links da legenda para "Link na Bio" no Instagram e TikTok para evitar links não clicáveis.</p>
+            </section>
+
+            <section id="login">
+                <h2>Manutenção e Login</h2>
+                <div class="callout warning">
+                    <strong>Alerta Semanal:</strong> As credenciais do YouTube expiram a cada 7 dias. Um aviso é enviado toda segunda-feira.
+                </div>
+                
+                <p>Envie <code>/login</code> no Telegram para renovar. Ao logar nas contas do YouTube, siga <strong>estritamente</strong> esta ordem:</p>
+                
+                <ol>
+                    <li><strong>Barone Vertical</strong>: Selecione a conta <em>Barone TV</em>.</li>
+                    <li><strong>Barone Shorts</strong>: Selecione a conta <em>Barone Shorts</em>.</li>
+                    <li><strong>Barone Prêmios</strong>: Selecione a conta <em>Barone Prêmios</em>.</li>
+                    <li><strong>SoyElBarone Shorts</strong>: Selecione o <strong>2º MotorLab</strong> da lista (penúltima conta).</li>
+                    <li><strong>SoyElBarone Vertical</strong>: Selecione a conta <em>SoyElBarone Vertical</em>.</li>
+                </ol>
+            </section>
+
+            <section id="erros">
+                <h2>Erros Comuns e Soluções</h2>
+                <p>Abaixo estão as mensagens de erro reais que o sistema pode retornar e como resolvê-las.</p>
+
+                <div class="callout danger">
+                    <strong>ERRO: API do Instagram</strong><br>
+                    <em style="font-size:0.9em; display:block; margin: 0.5rem 0;">"O container do Instagram não está no status adequado para receber o vídeo."</em>
+                    <hr style="border:0; border-top:1px solid #fecaca; margin: 0.5rem 0;">
+                    <strong>Solução:</strong> Verifique se o container foi criado e está em status “READY” antes de fazer o upload; aguarde a mudança de status ou recrie o container e tente novamente.
+                </div>
+
+                <div class="callout danger">
+                    <strong>ERRO: Tamanho/URL do Vídeo (Facebook)</strong><br>
+                    <em style="font-size:0.9em; display:block; margin: 0.5rem 0;">"Não foi possível buscar o arquivo de vídeo da URL fornecida para o Facebook."</em>
+                    <hr style="border:0; border-top:1px solid #fecaca; margin: 0.5rem 0;">
+                    <strong>Solução:</strong> Verifique se o campo “video_download_link” contém um URL válido e acessível publicamente (link direto para o arquivo .mp4). Corrija ou substitua o link e execute novamente o fluxo.
+                </div>
+
+                <div class="callout warning">
+                    <strong>AVISO: Thumbnail não ajustada</strong><br>
+                    <em style="font-size:0.9em; display:block; margin: 0.5rem 0;">"Thumbnail não ajustada automaticamente (tamanho maior que o permitido)"</em>
+                    <hr style="border:0; border-top:1px solid #fcd34d; margin: 0.5rem 0;">
+                    <strong>Solução:</strong> O vídeo foi postado, mas a thumb falhou. A imagem original era >7MB e a compressão falhou. Ajuste manualmente no YouTube Studio/TikTok.
+                </div>
+
+                <p style="margin-top: 2rem; font-size: 0.9rem; color: #666;">
+                    Todos os logs detalhados estão disponíveis na <a href="https://docs.google.com/spreadsheets/d/1Te2o5GMzHeHuDUX_FutjiHtIH7_kXgFqRuJg-q3vF6I" target="_blank" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Planilha de Controle</a>.
+                </p>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // Inicializa Mermaid
+        mermaid.initialize({ startOnLoad: true });
+
+        // Mobile Menu
+        document.querySelectorAll('aside a').forEach(link => {
+            link.addEventListener('click', () => {
+                if(window.innerWidth <= 768) {
+                    document.querySelector('aside').classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
