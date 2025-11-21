@@ -16,22 +16,22 @@
     <style>
         :root {
             /* Cores Lever Media (Adaptadas para Light Mode) */
-            --primary-color: #00aabf; /* Ciano um pouco mais escuro para leitura no branco */
-            --primary-bg: #e6fcfd; /* Fundo ciano bem claro */
+            --primary-color: #00aabf; 
+            --primary-bg: #e6fcfd; 
             
-            --bg-body: #f3f4f6; /* Cinza claro fundo */
-            --bg-paper: #ffffff; /* Branco papel */
+            --bg-body: #f3f4f6; 
+            --bg-paper: #ffffff; 
             --bg-sidebar: #ffffff;
             
-            --text-main: #1f2937; /* Cinza quase preto */
-            --text-muted: #6b7280; /* Cinza médio */
+            --text-main: #1f2937; 
+            --text-muted: #6b7280; 
             
             --border-color: #e5e7eb;
-            --code-bg: #1e293b; /* Code block escuro para contraste */
+            --code-bg: #1e293b; 
             --code-text: #e2e8f0;
 
             --sidebar-width: 260px;
-            --content-width: 900px; /* Largura limitada para leitura */
+            --content-width: 900px; 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -76,7 +76,7 @@
             gap: 6px;
         }
 
-        .brand span { color: #00C8E6; /* Ciano original da marca */ }
+        .brand span { color: #00C8E6; }
 
         .nav-content {
             padding: 1.5rem;
@@ -120,7 +120,7 @@
             flex: 1;
             padding: 3rem 2rem;
             display: flex;
-            justify-content: center; /* Centraliza o container */
+            justify-content: center; 
         }
 
         .container {
@@ -133,7 +133,6 @@
             border: 1px solid var(--border-color);
         }
 
-        /* Tipografia */
         h1 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1.5rem; color: #111; letter-spacing: -1px; }
         h2 { 
             font-size: 1.5rem; 
@@ -150,7 +149,6 @@
         ul, ol { margin-left: 1.5rem; margin-bottom: 1.5rem; }
         li { margin-bottom: 0.5rem; }
 
-        /* Elementos Visuais */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -165,7 +163,6 @@
         td { font-size: 0.9rem; }
         tr:last-child td { border-bottom: none; }
 
-        /* Code Blocks */
         pre {
             background-color: var(--code-bg);
             color: var(--code-text);
@@ -176,20 +173,17 @@
             font-size: 0.9rem;
         }
         
-        code {
-            font-family: 'JetBrains Mono', monospace;
-        }
+        code { font-family: 'JetBrains Mono', monospace; }
 
         p > code, li > code {
             background-color: var(--bg-body);
-            color: #d946ef; /* Roxo para destaque inline */
+            color: #d946ef; 
             padding: 0.2rem 0.4rem;
             border-radius: 4px;
             font-size: 0.85rem;
             border: 1px solid #e5e7eb;
         }
 
-        /* Callouts */
         .callout {
             padding: 1rem 1.5rem;
             border-radius: 8px;
@@ -207,15 +201,105 @@
         .callout.danger { background-color: #fef2f2; border-color: #ef4444; }
         .callout.danger strong { color: #991b1b; }
 
-        /* Mermaid */
-        .mermaid {
-            background-color: #f8fafc;
-            padding: 1.5rem;
-            border-radius: 8px;
+        /* --- Mermaid Wrapper & Zoom --- */
+        .mermaid-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
             border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: #f8fafc;
+            transition: border-color 0.2s;
+            cursor: zoom-in;
+        }
+
+        .mermaid-wrapper:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .mermaid {
+            padding: 1.5rem;
             display: flex;
             justify-content: center;
-            margin-bottom: 2rem;
+        }
+
+        .zoom-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            pointer-events: none;
+        }
+
+        /* --- Modal / Lightbox --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            width: 95%;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: auto;
+        }
+
+        /* Força o SVG dentro do modal a ocupar o espaço disponível */
+        .modal-content svg {
+            max-width: 100% !important;
+            height: auto !important;
+            max-height: 90vh !important;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: #f3f4f6;
+            border: none;
+            font-size: 2rem;
+            line-height: 1;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            transition: background 0.2s;
+        }
+
+        .modal-close:hover { background: #e5e7eb; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Mobile Button */
@@ -281,19 +365,23 @@
                 <h1>Manual de Automação</h1>
                 <p>Bem-vindo à documentação oficial do fluxo de mídia do Barone. Este sistema conecta o <strong>ClickUp</strong> ao <strong>Google Drive</strong> para distribuir conteúdo automaticamente no YouTube, Facebook, Instagram e TikTok.</p>
                 
-                <div class="mermaid">
-                    %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e6fcfd', 'edgeLabelBackground':'#fff', 'tertiaryColor': '#fff'}}}%%
-                    graph LR
-        A[Telegram: /agendar_card] --> B(ClickUp: Leitura);
-        B --> C{Arquivos no Drive?};
-        C -->|Sim| D[Processamento];
-        C -->|Não| X[Erro: Arquivos não encontrados];
-        D --> E[Telegram: Aprovar?];
-        E -->|Sim| F{Distribuição};
-        F --> G[YouTube];
-        F --> H[Meta FB/IG];
-        F --> I[TikTok];
-        G & H & I --> J[Logs & ClickUp];
+                <!-- Mermaid Wrapper com Zoom -->
+                <div class="mermaid-wrapper" onclick="openModal()">
+                    <div class="zoom-badge">🔍 Clique para ampliar</div>
+                    <div class="mermaid">
+                        %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e6fcfd', 'edgeLabelBackground':'#fff', 'tertiaryColor': '#fff'}}}%%
+                        graph LR
+            A[Telegram: /agendar_card] --> B(ClickUp: Leitura);
+            B --> C{Arquivos no Drive?};
+            C -->|Sim| D[Processamento];
+            C -->|Não| X[Erro: Arquivos não encontrados];
+            D --> E[Telegram: Aprovar?];
+            E -->|Sim| F{Distribuição};
+            F --> G[YouTube];
+            F --> H[Meta FB/IG];
+            F --> I[TikTok];
+            G & H & I --> J[Logs & ClickUp];
+                    </div>
                 </div>
             </section>
 
@@ -433,6 +521,14 @@
         </div>
     </main>
 
+    <!-- Modal de Zoom -->
+    <div id="diagramModal" class="modal" onclick="closeModal(event)">
+        <button class="modal-close" onclick="closeModal(event)">×</button>
+        <div class="modal-content" id="modalContent">
+            <!-- O SVG será injetado aqui -->
+        </div>
+    </div>
+
     <script>
         // Inicializa Mermaid
         mermaid.initialize({ startOnLoad: true });
@@ -444,6 +540,41 @@
                     document.querySelector('aside').classList.remove('open');
                 }
             });
+        });
+
+        // Funções do Modal de Zoom
+        function openModal() {
+            // Clona o SVG atual do diagrama
+            const originalSvg = document.querySelector('.mermaid svg');
+            if (originalSvg) {
+                const clonedSvg = originalSvg.cloneNode(true);
+                // Remove altura/largura fixa para permitir que o CSS do modal controle o tamanho
+                clonedSvg.removeAttribute('height');
+                clonedSvg.style.maxWidth = '100%';
+                
+                const modalContent = document.getElementById('modalContent');
+                modalContent.innerHTML = ''; // Limpa conteúdo anterior
+                modalContent.appendChild(clonedSvg);
+                
+                document.getElementById('diagramModal').classList.add('active');
+                document.body.style.overflow = 'hidden'; // Impede rolagem da página de fundo
+            }
+        }
+
+        function closeModal(event) {
+            // Fecha se clicar no botão X ou no fundo escuro (mas não no conteúdo)
+            if (event.target.id === 'diagramModal' || event.target.classList.contains('modal-close')) {
+                document.getElementById('diagramModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Fechar com tecla ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                document.getElementById('diagramModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         });
     </script>
 </body>
